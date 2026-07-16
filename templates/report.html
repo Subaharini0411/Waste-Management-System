@@ -1,0 +1,289 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Report Waste</title>
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>
+
+<i class="fa-solid fa-trash"></i>
+
+Waste Reporting
+
+</h1>
+
+</header>
+
+<nav>
+
+<a href="/">
+<i class="fa-solid fa-house"></i>
+Home
+</a>
+
+<a href="/report/">
+<i class="fa-solid fa-trash"></i>
+Report Waste
+</a>
+
+<a href="/report/myreports/">
+<i class="fa-solid fa-list"></i>
+My Reports
+</a>
+
+<a href="/feedback/">
+<i class="fa-solid fa-comments"></i>
+Feedback
+</a>
+
+<a href="/about/">
+<i class="fa-solid fa-circle-info"></i>
+About
+</a>
+
+<a href="/logout/">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</a>
+
+<span style="float:right;color:white;font-weight:bold;">
+
+<i class="fa-solid fa-user-circle"></i>
+
+{{ reporter_name }}
+
+</span>
+
+</nav>
+
+<section class="hero">
+
+<div class="form-container">
+
+<h2>Submit Waste Report</h2>
+
+<form id="reportForm">
+
+{% csrf_token %}
+
+<label>
+
+<i class="fa-solid fa-user"></i>
+
+Reporter Name
+
+</label>
+
+<input
+type="text"
+id="reporter_name"
+value="{{ reporter_name }}"
+requried>
+
+<label>
+
+<i class="fa-solid fa-location-dot"></i>
+
+Waste Location
+
+</label>
+
+<input
+type="text"
+id="location"
+placeholder="Enter Waste Location"
+required>
+
+<label>
+
+<i class="fa-solid fa-trash"></i>
+
+Waste Type
+
+</label>
+
+<select id="waste_type" required>
+
+<option value="">Select Waste Type</option>
+
+<option>Plastic</option>
+
+<option>Paper</option>
+
+<option>Glass</option>
+
+<option>Metal</option>
+
+<option>Organic</option>
+
+<option>Electronic</option>
+
+<option>Other</option>
+
+</select>
+
+<label>
+
+<i class="fa-solid fa-comment"></i>
+
+Description
+
+</label>
+
+<textarea
+id="description"
+rows="5"
+placeholder="Describe the Waste"
+required></textarea>
+
+<button type="submit">
+
+<i class="fa-solid fa-paper-plane"></i>
+
+Submit Report
+
+</button>
+
+</form>
+
+<hr style="margin:30px 0;">
+
+<div style="text-align:center;">
+
+<h3>Already Reported Waste?</h3>
+
+<p>
+
+You can view all your submitted waste reports.
+
+</p>
+
+<a href="/report/myreports/" class="btn">
+
+<i class="fa-solid fa-list"></i>
+
+View My Reports
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+© 2026 Real Life Waste Management System
+
+</footer>
+
+<script>
+
+function getCookie(name){
+
+let cookieValue=null;
+
+if(document.cookie && document.cookie !== ''){
+
+const cookies=document.cookie.split(';');
+
+for(let i=0;i<cookies.length;i++){
+
+const cookie=cookies[i].trim();
+
+if(cookie.substring(0,name.length+1)===(name+'=')){
+
+cookieValue=decodeURIComponent(cookie.substring(name.length+1));
+
+break;
+
+}
+
+}
+
+}
+
+return cookieValue;
+
+}
+
+const csrftoken=getCookie('csrftoken');
+
+document.getElementById("reportForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+fetch("/report/save/",{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json",
+
+"X-CSRFToken":csrftoken
+
+},
+
+body:JSON.stringify({
+
+reporter_name:document.getElementById("reporter_name").value,
+
+location:document.getElementById("location").value,
+
+waste_type:document.getElementById("waste_type").value,
+
+description:document.getElementById("description").value
+
+})
+
+})
+
+.then(response=>response.json())
+
+.then(data=>{
+
+if(data.success){
+
+alert(data.message);
+
+window.location.href="/report/myreports/";
+
+}else{
+
+alert(data.message);
+
+}
+
+})
+
+.catch(error=>{
+
+alert("Something went wrong!");
+
+});
+
+});
+
+</script>
+
+</body>
+
+</html>

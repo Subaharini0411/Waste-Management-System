@@ -1,0 +1,284 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Verifier Dashboard</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>
+
+        <i class="fa-solid fa-user-shield"></i>
+
+        Verifier Dashboard
+
+    </h1>
+
+</header>
+
+<nav>
+
+    <a href="/">
+        <i class="fa-solid fa-house"></i>
+        Home
+    </a>
+
+    <a href="/verifier/dashboard/">
+        <i class="fa-solid fa-gauge-high"></i>
+        Dashboard
+    </a>
+
+    <a href="/feedback/">
+        <i class="fa-solid fa-comments"></i>
+        Feedback
+    </a>
+
+    <a href="/logout/">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Logout
+    </a>
+
+</nav>
+
+<section class="hero">
+
+<h2>Dashboard Overview</h2>
+
+<div class="features">
+
+<div class="card">
+
+<i class="fa-solid fa-file-circle-check fa-2x"></i>
+
+<h3>Total Reports</h3>
+
+<h1>{{ total_reports }}</h1>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-clock fa-2x"></i>
+
+<h3>Pending</h3>
+
+<h1 style="color:orange;">{{ pending }}</h1>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-circle-check fa-2x"></i>
+
+<h3>Verified</h3>
+
+<h1 style="color:green;">{{ verified }}</h1>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-truck fa-2x"></i>
+
+<h3>Collected</h3>
+
+<h1 style="color:blue;">{{ collected }}</h1>
+
+</div>
+
+<div class="card">
+
+<i class="fa-solid fa-recycle fa-2x"></i>
+
+<h3>Recycled</h3>
+
+<h1 style="color:purple;">{{ recycled }}</h1>
+
+</div>
+
+</div>
+
+<br>
+
+<input
+type="text"
+class="search-box"
+placeholder="Search by Reporter, Waste Type or Location">
+
+<br><br>
+
+<table class="report-table">
+
+<thead>
+
+<tr>
+
+<th><i class="fa-solid fa-hashtag"></i> ID</th>
+
+<th><i class="fa-solid fa-user"></i> Reporter</th>
+
+<th><i class="fa-solid fa-trash"></i> Waste Type</th>
+
+<th><i class="fa-solid fa-location-dot"></i> Location</th>
+
+<th><i class="fa-solid fa-comment"></i> Description</th>
+
+<th><i class="fa-solid fa-list-check"></i> Status</th>
+
+<th><i class="fa-solid fa-calendar"></i> Date</th>
+
+<th><i class="fa-solid fa-gears"></i> Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for report in reports %}
+
+<tr>
+
+<td>{{ report.id }}</td>
+
+<td>{{ report.reporter_name }}</td>
+
+<td>{{ report.waste_type }}</td>
+
+<td>{{ report.location }}</td>
+
+<td>{{ report.description }}</td>
+
+<td>
+
+{% if report.status == "Pending" %}
+
+<span class="unsolved">
+
+{{ report.status }}
+
+</span>
+
+{% elif report.status == "Verified" %}
+
+<span class="solved">
+
+{{ report.status }}
+
+</span>
+
+{% elif report.status == "Collected" %}
+
+<span class="solved">
+
+{{ report.status }}
+
+</span>
+
+{% else %}
+
+<span class="solved">
+
+{{ report.status }}
+
+</span>
+
+{% endif %}
+
+</td>
+
+<td>
+
+{{ report.created_at|date:"d M Y" }}
+
+</td>
+
+<td>
+
+<form action="/verifier/update/{{ report.id }}/" method="POST">
+
+{% csrf_token %}
+
+{% if report.status == "Pending" %}
+
+<button type="submit" class="solve-btn">
+
+Verify
+
+</button>
+
+{% elif report.status == "Verified" %}
+
+<button type="submit" class="view-btn">
+
+Collect
+
+</button>
+
+{% elif report.status == "Collected" %}
+
+<button type="submit" class="solve-btn">
+
+Recycle
+
+</button>
+
+{% else %}
+
+<button type="button" class="btn" disabled>
+
+Completed
+
+</button>
+
+{% endif %}
+
+</form>
+
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="8" style="text-align:center;">
+
+No waste reports found.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</section>
+
+<footer>
+
+© 2026 Real Life Waste Management System
+
+</footer>
+
+</body>
+
+</html>

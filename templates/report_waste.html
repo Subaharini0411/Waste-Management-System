@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Report Waste</title>
+
+<link rel="stylesheet" href="../static/css/style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>
+
+<i class="fa-solid fa-trash"></i>
+
+Report Waste
+
+</h1>
+
+</header>
+
+<nav>
+
+<a href="home.html">
+<i class="fa-solid fa-house"></i> Home
+</a>
+
+<a href="reporter.html">
+<i class="fa-solid fa-user"></i> Reporter
+</a>
+
+<a href="waste_information.html">
+<i class="fa-solid fa-recycle"></i> Waste Information
+</a>
+
+<a href="contact.html">
+<i class="fa-solid fa-phone"></i> Contact
+</a>
+
+</nav>
+
+<section class="hero">
+
+<div class="form-container">
+
+<h2>Waste Complaint Form</h2>
+
+<form>
+
+<label>
+<i class="fa-solid fa-list"></i>
+Waste Type
+</label>
+
+<select>
+
+<option>Select Waste Type</option>
+
+<option>Wet Waste</option>
+
+<option>Dry Waste</option>
+
+<option>Plastic Waste</option>
+
+<option>Electronic Waste</option>
+
+<option>Hazardous Waste</option>
+
+</select>
+
+<label>
+<i class="fa-solid fa-location-dot"></i>
+Location
+</label>
+
+<input
+type="text"
+placeholder="Enter waste location"
+required>
+
+<label>
+<i class="fa-solid fa-file-lines"></i>
+Description
+</label>
+
+<textarea
+rows="4"
+placeholder="Describe the waste problem"
+required></textarea>
+
+<label>
+<i class="fa-solid fa-camera"></i>
+Upload Waste Photo
+</label>
+
+<input type="file">
+
+<label>
+<i class="fa-solid fa-bolt"></i>
+Priority
+</label>
+
+<select>
+
+<option>Low</option>
+
+<option>Medium</option>
+
+<option>High</option>
+
+</select>
+
+<label>
+<i class="fa-solid fa-calendar"></i>
+Date
+</label>
+
+<input type="date">
+
+<label>
+<i class="fa-solid fa-circle-info"></i>
+Complaint Status
+</label>
+
+<input
+type="text"
+value="Unsolved"
+readonly>
+
+<button type="submit">
+
+<i class="fa-solid fa-paper-plane"></i>
+
+Submit Report
+
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+<footer>
+
+© 2026 Real Life Waste Management System
+
+</footer>
+
+</body>
+
+</html>

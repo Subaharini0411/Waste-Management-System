@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Verifier Login</title>
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>
+<i class="fa-solid fa-user-shield"></i>
+Verifier Login
+</h1>
+
+</header>
+
+<nav>
+
+<a href="/">
+<i class="fa-solid fa-house"></i> Home
+</a>
+
+<a href="/verifier/login/">
+<i class="fa-solid fa-user-check"></i> Verifier
+</a>
+
+<a href="/contact/">
+<i class="fa-solid fa-phone"></i> Contact
+</a>
+
+</nav>
+
+<section class="hero">
+
+<div class="form-container">
+
+<h2>Verifier Login</h2>
+
+<p style="text-align:center;margin-bottom:20px;">
+Only authorized verifiers can access the dashboard.
+</p>
+
+<form id="verifierLoginForm">
+
+<label>
+<i class="fa-solid fa-user"></i>
+Username
+</label>
+
+<input
+type="text"
+id="username"
+placeholder="Enter Username"
+required>
+
+<label>
+<i class="fa-solid fa-lock"></i>
+Password
+</label>
+
+<input
+type="password"
+id="password"
+placeholder="Enter Password"
+required>
+
+<button type="submit">
+
+<i class="fa-solid fa-right-to-bracket"></i>
+
+Login
+
+</button>
+
+</form>
+
+<p style="text-align:center;margin-top:20px;">
+
+<a href="/">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+Back to Home
+
+</a>
+
+</p>
+
+</div>
+
+</section>
+
+<footer>
+
+© 2026 Real Life Waste Management System
+
+</footer>
+
+<script>
+
+document.getElementById("verifierLoginForm").addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    fetch("/verifier/login/check/", {
+
+        method: "POST",
+
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value
+
+        })
+
+    })
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        if(data.success){
+
+            alert(data.message);
+
+            window.location.href = "/verifier/dashboard/";
+
+        }
+
+        else{
+
+            alert(data.message);
+
+        }
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        alert("Server Error");
+
+    });
+
+});
+
+</script>
+
+</body>
+</html>

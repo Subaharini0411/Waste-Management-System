@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Feedback</title>
+
+<link rel="stylesheet" href="../static/css/style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>
+
+<i class="fa-solid fa-comments"></i>
+
+Feedback
+
+</h1>
+
+</header>
+
+<nav>
+
+<a href="/dashboard/">
+<i class="fa-solid fa-house"></i> Dashboard
+</a>
+
+<a href="/report/">
+<i class="fa-solid fa-trash"></i> Report Waste
+</a>
+
+<a href="/report/myreports/">
+<i class="fa-solid fa-list"></i> My Reports
+</a>
+
+<a href="/logout/">
+<i class="fa-solid fa-right-from-bracket"></i> Logout
+</a>
+
+</nav>
+
+<section class="hero">
+
+<div class="form-container">
+
+<h2>Share Your Feedback</h2>
+
+<p style="text-align:center; margin-bottom:20px;">
+
+We value your opinion. Please tell us about your experience.
+
+</p>
+
+<form id="feedbackForm">
+
+<label>
+
+<i class="fa-solid fa-user"></i>
+
+Full Name
+
+</label>
+
+<input
+type="text"
+id="reporter_name"
+placeholder="Enter your name"
+required>
+
+<label>
+
+<i class="fa-solid fa-envelope"></i>
+
+Email Address
+
+</label>
+
+<input
+type="email"
+id="email"
+placeholder="Enter your email"
+required>
+
+<label>
+
+<i class="fa-solid fa-star"></i>
+
+Overall Rating
+
+</label>
+
+<select id="rating" required>
+
+<option value="">Select Rating</option>
+
+<option>⭐⭐⭐⭐⭐ Excellent</option>
+
+<option>⭐⭐⭐⭐ Good</option>
+
+<option>⭐⭐⭐ Average</option>
+
+<option>⭐⭐ Poor</option>
+
+<option>⭐ Very Poor</option>
+
+</select>
+
+<label>
+
+<i class="fa-solid fa-comment"></i>
+
+Comments
+
+</label>
+
+<textarea
+id="message"
+rows="5"
+placeholder="Write your feedback..."
+required></textarea>
+
+<button type="submit">
+
+<i class="fa-solid fa-paper-plane"></i>
+
+Submit Feedback
+
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+<footer>
+
+© 2026 Real Life Waste Management System
+
+</footer>
+
+<script>
+
+document.getElementById("feedbackForm").addEventListener("submit", function(e){
+
+e.preventDefault();
+
+const message =
+"Rating: " + document.getElementById("rating").value +
+"\n\nComments:\n" +
+document.getElementById("message").value;
+
+fetch("/feedback/save/",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+reporter_name:document.getElementById("reporter_name").value,
+
+email:document.getElementById("email").value,
+
+message:message
+
+})
+
+})
+
+.then(response=>response.json())
+
+.then(data=>{
+
+if(data.success){
+
+alert(data.message);
+
+document.getElementById("feedbackForm").reset();
+
+}else{
+
+alert(data.message);
+
+}
+
+})
+
+.catch(error=>{
+
+alert("Something went wrong.");
+
+});
+
+});
+
+</script>
+
+</body>
+
+</html>

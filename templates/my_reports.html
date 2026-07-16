@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>My Waste Reports</title>
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>
+
+<i class="fa-solid fa-list"></i>
+
+My Waste Reports
+
+</h1>
+
+</header>
+
+<nav>
+
+<a href="/">
+<i class="fa-solid fa-house"></i>
+Home
+</a>
+
+<a href="/report/">
+<i class="fa-solid fa-trash"></i>
+Report Waste
+</a>
+
+<a href="/report/myreports/">
+<i class="fa-solid fa-list"></i>
+My Reports
+</a>
+
+<a href="/feedback/">
+<i class="fa-solid fa-comments"></i>
+Feedback
+</a>
+
+<a href="/about/">
+<i class="fa-solid fa-circle-info"></i>
+About
+</a>
+
+<a href="/logout/">
+<i class="fa-solid fa-right-from-bracket"></i>
+Logout
+</a>
+
+<span style="float:right;color:white;font-weight:bold;">
+
+<i class="fa-solid fa-user-circle"></i>
+
+{{ reporter_name }}
+
+</span>
+
+</nav>
+
+<section class="hero">
+
+<h2>My Submitted Reports</h2>
+
+<table class="report-table">
+
+<thead>
+
+<tr>
+
+<th>ID</th>
+
+<th>Reporter</th>
+
+<th>Location</th>
+
+<th>Waste Type</th>
+
+<th>Description</th>
+
+<th>Status</th>
+
+<th>Date</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for report in reports %}
+
+<tr>
+
+<td>{{ report.id }}</td>
+
+<td>{{ report.reporter_name }}</td>
+
+<td>{{ report.location }}</td>
+
+<td>{{ report.waste_type }}</td>
+
+<td>{{ report.description }}</td>
+
+<td>
+
+{% if report.status == "Pending" %}
+
+<span class="unsolved">
+{{ report.status }}
+</span>
+
+{% else %}
+
+<span class="solved">
+{{ report.status }}
+</span>
+
+{% endif %}
+
+</td>
+
+<td>{{ report.created_at|date:"d M Y" }}</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+
+<td colspan="7" style="text-align:center;">
+
+No reports submitted yet.
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+<br>
+
+<div style="text-align:center;">
+
+<a href="/report/" class="btn">
+
+<i class="fa-solid fa-plus"></i>
+
+Report New Waste
+
+</a>
+
+</div>
+
+</section>
+
+<footer>
+
+© 2026 Real Life Waste Management System
+
+</footer>
+
+</body>
+
+</html>
