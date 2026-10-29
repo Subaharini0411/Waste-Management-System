@@ -24,10 +24,12 @@ ALLOWED_HOSTS = [
 ]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+
 if RENDER_EXTERNAL_HOSTNAME:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 EXTRA_ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "")
+
 if EXTRA_ALLOWED_HOSTS:
     ALLOWED_HOSTS.extend(
         host.strip()
@@ -78,17 +80,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "backend.wsgi.application"
 
-# Database
-# Local development uses MySQL.
-# Set the DB_* environment variables in Render for your production database.
+# Database - SQLite
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": os.environ.get("DB_NAME", "waste_management"),
-        "USER": os.environ.get("DB_USER", "root"),
-        "PASSWORD": os.environ.get("DB_PASSWORD", ""),
-        "HOST": os.environ.get("DB_HOST", "localhost"),
-        "PORT": os.environ.get("DB_PORT", "3306"),
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
