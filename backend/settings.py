@@ -16,17 +16,18 @@ SECRET_KEY = os.environ.get(
 
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
-# Allowed hosts for local development and Render
+# Allowed hosts
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "waste-management-system-0m75.onrender.com",
+    "waste-management-system-dyr3.onrender.com",
 ]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
 
 if RENDER_EXTERNAL_HOSTNAME:
-    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+    if RENDER_EXTERNAL_HOSTNAME not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 EXTRA_ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "")
 
@@ -51,8 +52,10 @@ INSTALLED_APPS = [
     "feedbacks",
 ]
 
+# Middleware
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -63,6 +66,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "backend.urls"
 
+# Templates
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -122,15 +126,30 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
 
-# Static files
-STATIC_URL = "static/"
+# Static files - CSS, JavaScript, images
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+# Include this only if the project-root static folder exists
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-# Render HTTPS / CSRF configuration
+# WhiteNoise static file storage
+STORAGES = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": (
+            "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        ),
+    },
+}
+
+# CSRF trusted origins
 CSRF_TRUSTED_ORIGINS = [
-    "https://waste-management-system-0m75.onrender.com",
+    "https://waste-management-system-dyr3.onrender.com",
 ]
 
 if RENDER_EXTERNAL_HOSTNAME:
